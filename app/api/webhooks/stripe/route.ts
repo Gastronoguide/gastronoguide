@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-09-30.clover",
+  apiVersion: "2025-10-29.clover",
 });
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -18,9 +18,10 @@ export async function POST(req: Request) {
 
   try {
     event = stripe.webhooks.constructEvent(body, sig!, endpointSecret);
-  } catch (err: any) {
-    console.error("❌ Erreur de vérification du webhook:", err.message);
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("❌ Erreur de vérification du webhook:", error.message);
+    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
   try {
@@ -34,31 +35,28 @@ export async function POST(req: Request) {
         const metadata = session.metadata || {};
 
         // Validation des données requises
-        if (!metadata.slot || !metadata.email) {
-          console.error("❌ Données manquantes:", { slot: metadata.slot, email: metadata.email });
-          throw new Error("Metadata incomplètes: slot ou email manquant");
+        if (!metadata.date || !metadata.startTime || !metadata.email) {
+          console.error("❌ Données manquantes:", {
+            date: metadata.date,
+            startTime: metadata.startTime,
+            email: metadata.email
+          });
+          throw new Error("Metadata incomplètes: date, startTime ou email manquant");
         }
 
         const participantsCount = parseInt(metadata.participantsCount || "1");
 
         // Parsing de la date et heure avec logging
-        const [dateStr, timeRange] = metadata.slot?.split(" ") || ["", ""];
-        const [startTimeStr] = timeRange?.split("-") || [""];
-
-        console.log("🕐 Parsing du slot:", {
-          slotOriginal: metadata.slot,
-          dateStr,
-          timeRange,
-          startTimeStr
+        console.log("🕐 Parsing des données:", {
+          date: metadata.date,
+          startTime: metadata.startTime
         });
 
-        if (!dateStr || !startTimeStr) {
-          console.error("❌ Impossible de parser le slot:", metadata.slot);
-          throw new Error(`Format de slot invalide: ${metadata.slot}`);
-        }
+        // Extraire l'heure de début si c'est une plage horaire (ex: "09:00 - 11:00" -> "09:00")
+        const startTimeString = metadata.startTime.split(' - ')[0].trim();
 
-        const date = new Date(dateStr);
-        const startTime = new Date(`${dateStr}T${startTimeStr.trim()}:00`);
+        const date = new Date(metadata.date);
+        const startTime = new Date(`${metadata.date}T${startTimeString}:00`);
 
         console.log("📅 Dates créées:", {
           date: date.toISOString(),
@@ -103,8 +101,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ received: true });
-  } catch (err: any) {
-    console.error("❌ Erreur lors de l'enregistrement en BDD:", err);
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("❌ Erreur lors de l'enregistrement en BDD:", error);
     return new NextResponse("Erreur serveur", { status: 500 });
   }
 }

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-09-30.clover",
+  apiVersion: "2025-10-29.clover",
 });
 
 export async function POST(req: Request) {
@@ -60,10 +60,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
-    console.error("Erreur Stripe Checkout:", err);
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("Erreur Stripe Checkout:", error);
     return NextResponse.json(
-      { error: err.message || "Erreur interne du serveur" },
+      { error: error.message || "Erreur interne du serveur" },
       { status: 500 }
     );
   }

@@ -42,7 +42,7 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="bg-primary text-primary-foreground py-4 px-6 text-center">
-          © 2025 Gastrono'guide. Tous droits réservés.
+          © 2025 Gastrono&apos;guide. Tous droits réservés.
         </footer>
         <Toaster />
       </body>

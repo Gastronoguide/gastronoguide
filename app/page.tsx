@@ -20,10 +20,10 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [reservationDate, setReservationDate] = useState<Date>();
-  const [startTime, setStartTime] = useState<boolean | undefined>(undefined)
+  const [startTime, setStartTime] = useState<string | undefined>(undefined)
   const [participants, setParticipants] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [appointments, setAppointments] = useState<any[]>([]);
+  const [appointments, setAppointments] = useState<unknown[]>([]);
 
   const pricePerPerson = getPricePerPerson(participants);
   const totalPrice = pricePerPerson * participants;
@@ -181,7 +181,7 @@ export default function Home() {
                   <Label className="text-gray-700 font-medium">
                     Créneau horaire
                   </Label>
-                  <Select value={startTime} onValueChange={(value: boolean) => setStartTime(value)}>
+                  <Select value={startTime} onValueChange={setStartTime}>
                     <SelectTrigger className="h-12">
                       <SelectValue placeholder="Sélectionnez un créneau" />
                     </SelectTrigger>

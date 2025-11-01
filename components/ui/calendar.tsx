@@ -24,7 +24,7 @@ function Calendar({
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
-  appointmentData?: any
+  appointmentData?: unknown
 }) {
   console.log('appointmentData in Calendar',JSON.stringify(appointmentData,null,2))
   const defaultClassNames = getDefaultClassNames()
