@@ -20,7 +20,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [reservationDate, setReservationDate] = useState<Date>();
-  const [timeSlot, setTimeSlot] = useState("");
+  const [startTime, setStartTime] = useState<boolean | undefined>(undefined)
   const [participants, setParticipants] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -55,7 +55,7 @@ export default function Home() {
       return;
     }
     
-    if (!timeSlot) {
+    if (!startTime) {
       toast({
         title: "Créneau manquant",
         description: "Veuillez sélectionner un créneau horaire",
@@ -76,7 +76,7 @@ export default function Home() {
         lastName,
         email,
         phone,
-        slot: `${format(reservationDate, "yyyy-MM-dd", { locale: fr })} ${timeSlot}`,
+        startTime,
         price: totalPrice,
         participantsCount: participants,
       });
@@ -89,7 +89,8 @@ export default function Home() {
           lastName,
           email,
           phone,
-          slot: `${format(reservationDate, "yyyy-MM-dd", { locale: fr })} ${timeSlot}`,
+          date: format(reservationDate, "yyyy-MM-dd", { locale: fr }),
+          startTime,
           price: totalPrice,
           participantsCount: participants,
         }),
@@ -130,7 +131,7 @@ export default function Home() {
     }
   };
 
-  const isFormValid = firstName && lastName && phone && email && reservationDate && timeSlot && participants > 0;
+  const isFormValid = firstName && lastName && phone && email && reservationDate && startTime && participants > 0;
 
   return (
     <div className="">
@@ -180,7 +181,7 @@ export default function Home() {
                   <Label className="text-gray-700 font-medium">
                     Créneau horaire
                   </Label>
-                  <Select value={timeSlot} onValueChange={setTimeSlot}>
+                  <Select value={startTime} onValueChange={(value: boolean) => setStartTime(value)}>
                     <SelectTrigger className="h-12">
                       <SelectValue placeholder="Sélectionnez un créneau" />
                     </SelectTrigger>
@@ -202,7 +203,7 @@ export default function Home() {
 
               <div className="space-y-2">
                 <Label className="text-gray-700 font-medium">
-                  Nombre de Convives (max 12)
+                  Nombre de participants (max 12)
                 </Label>
                 <Select 
                   value={participants.toString()} 

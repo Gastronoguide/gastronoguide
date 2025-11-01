@@ -14,12 +14,13 @@ export async function POST(req: Request) {
       lastName,
       email,
       phone,
-      slot,
+      date,
+      startTime,
       price,
       participantsCount,
     } = body;
 
-    if (!email || !price || !slot) {
+    if (!email || !price || !date || !startTime) {
       return NextResponse.json(
         { error: "Champs requis manquants" },
         { status: 400 }
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
               name: "Matinée Gastronomique - Marché Victor Hugo",
               description: `Réservation pour ${participantsCount} personne${
                 participantsCount > 1 ? "s" : ""
-              }\nCréneau: ${slot}\nClient: ${firstName} ${lastName}\nTéléphone: ${phone}`,
+              }\nDate: ${date}\nHeure: ${startTime}\nClient: ${firstName} ${lastName}\nTéléphone: ${phone}`,
             },
             unit_amount: Math.round((price / participantsCount) * 100), // en centimes
           },
@@ -52,7 +53,8 @@ export async function POST(req: Request) {
         lastName,
         email,
         phone,
-        slot,
+        date,
+        startTime,
         participantsCount,
       },
     });
