@@ -31,11 +31,11 @@ export default function RootLayout({
         <header className="bg-primary text-primary-foreground py-4 px-6 flex items-center justify-between shadow-md">
           <div className="flex items-center gap-3">
             <img
-              src="/logo.png" // Remplacez par le chemin réel de votre logo
-              alt="Gastrono’guide Logo"
+              src="/GastronoGuide_LogoFinal_BlancEtNoir.png"
+              alt="Gastronoguide Logo"
               className="h-10 w-auto"
             />
-            <h1 className="text-2xl font-bold">Gastrono’guide</h1>
+            <h1 className="text-2xl font-bold">Gastronoguide</h1>
           </div>
         </header>
         <main className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 bg-gray-50">
