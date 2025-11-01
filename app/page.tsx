@@ -151,13 +151,13 @@ export default function Home() {
 
   return (
     <div className="">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-6">Détails de la Réservation</h2>
-              
-              <div className="grid grid-cols-2 gap-6 mb-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+          <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Détails de la Réservation</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div className="space-y-2">
                   <Label className="text-gray-700 font-medium">
                     Date de réservation
@@ -277,9 +277,9 @@ export default function Home() {
 
             {/* Contact Details Section */}
             <div>
-              <h2 className="text-2xl font-bold mb-6">Coordonnées</h2>
-              
-              <div className="grid grid-cols-2 gap-6 mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Coordonnées</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div>
                   <Label htmlFor="firstName" className="text-gray-700 font-medium mb-2 block">
                     Prénom
@@ -309,7 +309,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div>
                   <Label htmlFor="phone" className="text-gray-700 font-medium mb-2 block">
                     Téléphone
@@ -342,53 +342,53 @@ export default function Home() {
               <Button
                 onClick={handleCheckout}
                 disabled={!isFormValid || isLoading}
-                className="w-full bg-[#B6D7A5] text-black py-6 rounded-lg font-semibold text-lg hover:bg-[#B6D7A5]/90 transition-colors disabled:bg-[#B6D7A5]/30 disabled:cursor-not-allowed h-14 disabled:text-gray-600"
+                className="w-full bg-[#B6D7A5] text-black py-4 sm:py-6 rounded-lg font-semibold text-base sm:text-lg hover:bg-[#B6D7A5]/90 transition-colors disabled:bg-[#B6D7A5]/30 disabled:cursor-not-allowed h-12 sm:h-14 disabled:text-gray-600"
                 size="lg"
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin text-"></div>
-                    <span>Traitement en cours...</span>
+                    <span className="text-sm sm:text-base">Traitement en cours...</span>
                   </div>
                 ) : (
-                  `Réserver Maintenant - ${totalPrice}€`
+                  <span className="text-sm sm:text-base">{`Réserver Maintenant - ${totalPrice}€`}</span>
                 )}
               </Button>
             </div>
           </div>
 
           {/* Right Column - Summary Card */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden h-fit sticky top-8">
-            <div className="relative h-64">
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden h-fit lg:sticky lg:top-8">
+            <div className="relative h-48 sm:h-56 lg:h-64">
               <img
                 src="IMG_6644.JPG"
                 alt="Expérience Gastronomique"
                 className="w-full h-full object-cover object-bottom"
               />
             </div>
-            
-            <div className="p-6">
+
+            <div className="p-4 sm:p-6">
               <div className="mb-4">
-                <h3 className="text-3xl font-bold mb-2">Matinée Gastronomique</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-2">Matinée Gastronomique</h3>
                 
-                <div className="bg-[#B6D7A5]/10 border-l-4 border-[#B6D7A5] p-4 rounded">
+                <div className="bg-[#B6D7A5]/10 border-l-4 border-[#B6D7A5] p-3 sm:p-4 rounded">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-700 font-medium">
+                    <span className="text-sm sm:text-base text-gray-700 font-medium">
                       {participants} {participants === 1 ? 'personne' : 'personnes'}
                     </span>
-                    <span className="text-gray-600">
+                    <span className="text-sm sm:text-base text-gray-600">
                       {participants === 1 ? '120€' : `${pricePerPerson}€/pers`}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-2 border-t border-[#B6D7A5]/30">
-                    <span className="text-lg font-bold text-gray-900">Total</span>
-                    <span className="text-3xl font-bold text-[#B6D7A5]">{totalPrice}€</span>
+                    <span className="text-base sm:text-lg font-bold text-gray-900">Total</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-[#B6D7A5]">{totalPrice}€</span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Plongez dans une expérience culinaire unique où passion et saveurs se rencontrent. 
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+                Plongez dans une expérience culinaire unique où passion et saveurs se rencontrent.
                 Découvrez des plats exquis préparés avec des ingrédients locaux de qualité.
               </p>
             </div>
