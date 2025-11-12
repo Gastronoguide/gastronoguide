@@ -9,14 +9,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popove
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Checkbox } from "../components/ui/checkbox";
 import { useToast } from "../components/ui/use-toast";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Globe } from "lucide-react";
 import { format } from "date-fns";
-import { fr } from "date-fns/locale";
+import { fr, enUS, es } from "date-fns/locale";
 import { getPricePerPerson } from "../lib/utils";
 import { calculateAvailability, getRemainingSpots, type Appointment } from "../lib/availability";
+import { translations, languageNames, type Language } from "../lib/translations";
 
 export default function Home() {
   const { toast } = useToast();
+  const [language, setLanguage] = useState<Language>("fr");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,6 +29,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [rgpdConsent, setRgpdConsent] = useState(false);
+
+  const t = translations[language];
+  const dateLocale = language === "fr" ? fr : language === "en" ? enUS : es;
 
   const pricePerPerson = getPricePerPerson(participants);
   const totalPrice = pricePerPerson * participants;
@@ -75,24 +80,24 @@ export default function Home() {
   const handleCheckout = async () => {
     if (!reservationDate) {
       toast({
-        title: "Date manquante",
-        description: "Veuillez sélectionner une date de réservation",
+        title: t.missingDate,
+        description: t.selectDateMessage,
       });
       return;
     }
 
     if (!startTime) {
       toast({
-        title: "Créneau manquant",
-        description: "Veuillez sélectionner un créneau horaire",
+        title: t.missingTimeSlot,
+        description: t.selectTimeSlotMessage,
       });
       return;
     }
 
     if (!rgpdConsent) {
       toast({
-        title: "Consentement requis",
-        description: "Veuillez accepter la politique de confidentialité",
+        title: t.consentRequired,
+        description: t.acceptPrivacyMessage,
       });
       return;
     }
@@ -100,8 +105,8 @@ export default function Home() {
     setIsLoading(true);
 
     toast({
-      title: "Traitement en cours",
-      description: "Redirection vers le paiement...",
+      title: t.processingTitle,
+      description: t.redirectingPayment,
     });
 
     try {
@@ -141,8 +146,8 @@ export default function Home() {
 
       if (data.url) {
         toast({
-          title: "Succès !",
-          description: "Redirection vers la page de paiement...",
+          title: t.success,
+          description: t.redirectingPaymentPage,
         });
 
         setTimeout(() => {
@@ -150,16 +155,16 @@ export default function Home() {
         }, 500);
       } else {
         toast({
-          title: "Erreur",
-          description: "Aucune URL de paiement reçue",
+          title: t.error,
+          description: t.noPaymentUrl,
         });
         setIsLoading(false);
       }
     } catch (error) {
       console.error("Erreur lors de la réservation:", error);
       toast({
-        title: "Erreur de réservation",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        title: t.bookingError,
+        description: t.errorOccurred,
       });
       setIsLoading(false);
     }
@@ -170,15 +175,34 @@ export default function Home() {
   return (
     <div className="">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Language Selector */}
+        <div className="mb-4 flex justify-end">
+          <div className="flex items-center gap-2 bg-white rounded-lg shadow-sm p-2">
+            <Globe className="h-4 w-4 text-gray-600" />
+            <Select value={language} onValueChange={(value: Language) => setLanguage(value)}>
+              <SelectTrigger className="h-9 w-[140px] border-0 shadow-none focus:ring-0">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {(Object.keys(languageNames) as Language[]).map((lang) => (
+                  <SelectItem key={lang} value={lang}>
+                    {languageNames[lang]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8">
             <div className="mb-6 sm:mb-8">
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Détails de la Réservation</h2>
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">{t.reservationDetails}</h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div className="space-y-2">
                   <Label className="text-gray-700 font-medium">
-                    Date de réservation
+                    {t.reservationDate}
                   </Label>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -189,9 +213,9 @@ export default function Home() {
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {reservationDate ? (
-                          format(reservationDate, "PPP", { locale: fr })
+                          format(reservationDate, "PPP", { locale: dateLocale })
                         ) : (
-                          <span>Sélectionnez une date</span>
+                          <span>{t.selectDate}</span>
                         )}
                       </Button>
                     </PopoverTrigger>
@@ -204,6 +228,7 @@ export default function Home() {
                           date < new Date(new Date().setHours(0, 0, 0, 0))
                         }
                         appointmentData={appointments}
+                        locale={dateLocale}
                       />
                     </PopoverContent>
                   </Popover>
@@ -211,11 +236,11 @@ export default function Home() {
 
                 <div className="space-y-2">
                   <Label className="text-gray-700 font-medium">
-                    Créneau horaire
+                    {t.timeSlot}
                   </Label>
                   <Select value={startTime} onValueChange={setStartTime}>
                     <SelectTrigger className="h-12">
-                      <SelectValue placeholder="Sélectionnez un créneau" />
+                      <SelectValue placeholder={t.selectTimeSlot} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem
@@ -223,9 +248,9 @@ export default function Home() {
                         disabled={availability.morning === 0}
                       >
                         <div className="flex items-center justify-between gap-4 w-full">
-                          <span>Matin : 09:00 - 11:00</span>
+                          <span>{t.morning}</span>
                           <span className={`text-xs font-semibold ${availability.morning === 0 ? 'text-red-500' : 'text-green-600'}`}>
-                            {availability.morning === 0 ? 'Complet' : `${availability.morning} places`}
+                            {availability.morning === 0 ? t.full : `${availability.morning} ${t.spots}`}
                           </span>
                         </div>
                       </SelectItem>
@@ -234,9 +259,9 @@ export default function Home() {
                         disabled={availability.noon === 0}
                       >
                         <div className="flex items-center justify-between gap-4 w-full">
-                          <span>Midi : 11:30 - 13:30</span>
+                          <span>{t.noon}</span>
                           <span className={`text-xs font-semibold ${availability.noon === 0 ? 'text-red-500' : 'text-green-600'}`}>
-                            {availability.noon === 0 ? 'Complet' : `${availability.noon} places`}
+                            {availability.noon === 0 ? t.full : `${availability.noon} ${t.spots}`}
                           </span>
                         </div>
                       </SelectItem>
@@ -248,8 +273,8 @@ export default function Home() {
               <div className="space-y-2">
                 <Label className="text-gray-700 font-medium">
                   {reservationDate && startTime
-                    ? `Nombre de participants (${remainingSpots} places restantes)`
-                    : "Nombre de participants (max 12)"}
+                    ? `${t.participants} (${remainingSpots} ${t.participantsRemaining})`
+                    : `${t.participants} (${t.participantsMax})`}
                 </Label>
                 <Select
                   value={participants.toString()}
@@ -261,20 +286,20 @@ export default function Home() {
                   <SelectContent>
                     <SelectItem value="1" disabled={remainingSpots < 1}>
                       <div className="flex justify-between items-center w-full gap-8">
-                        <span>1 personne</span>
+                        <span>1 {t.person}</span>
                         <span className="font-semibold">120€</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="2" disabled={remainingSpots < 2}>
                       <div className="flex justify-between items-center w-full gap-8">
-                        <span>2 personnes</span>
+                        <span>2 {t.people}</span>
                         <span className="font-semibold">72€/pers</span>
                       </div>
                     </SelectItem>
                     {[3, 4].map((num) => (
                       <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                         <div className="flex justify-between items-center w-full gap-8">
-                          <span>{num} personnes</span>
+                          <span>{num} {t.people}</span>
                           <span className="font-semibold">60€/pers</span>
                         </div>
                       </SelectItem>
@@ -282,7 +307,7 @@ export default function Home() {
                     {[5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
                       <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                         <div className="flex justify-between items-center w-full gap-8">
-                          <span>{num} personnes</span>
+                          <span>{num} {t.people}</span>
                           <span className="font-semibold">55€/pers</span>
                         </div>
                       </SelectItem>
@@ -294,17 +319,17 @@ export default function Home() {
 
             {/* Contact Details Section */}
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Coordonnées</h2>
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">{t.contactDetails}</h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div>
                   <Label htmlFor="firstName" className="text-gray-700 font-medium mb-2 block">
-                    Prénom
+                    {t.firstName}
                   </Label>
                   <Input
                     id="firstName"
                     type="text"
-                    placeholder="Votre prénom"
+                    placeholder={t.yourFirstName}
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#B6D7A5] focus:ring-2 focus:ring-[#B6D7A5]/20"
@@ -313,12 +338,12 @@ export default function Home() {
 
                 <div>
                   <Label htmlFor="lastName" className="text-gray-700 font-medium mb-2 block">
-                    Nom
+                    {t.lastName}
                   </Label>
                   <Input
                     id="lastName"
                     type="text"
-                    placeholder="Votre nom"
+                    placeholder={t.yourLastName}
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#B6D7A5] focus:ring-2 focus:ring-[#B6D7A5]/20"
@@ -329,12 +354,12 @@ export default function Home() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div>
                   <Label htmlFor="phone" className="text-gray-700 font-medium mb-2 block">
-                    Téléphone
+                    {t.phone}
                   </Label>
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="Votre numéro de téléphone"
+                    placeholder={t.yourPhone}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#B6D7A5] focus:ring-2 focus:ring-[#B6D7A5]/20"
@@ -343,12 +368,12 @@ export default function Home() {
 
                 <div>
                   <Label htmlFor="email" className="text-gray-700 font-medium mb-2 block">
-                    Email
+                    {t.email}
                   </Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Votre adresse email"
+                    placeholder={t.yourEmail}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#B6D7A5] focus:ring-2 focus:ring-[#B6D7A5]/20"
@@ -367,16 +392,16 @@ export default function Home() {
                   <div
                     className="text-sm text-gray-700 leading-relaxed cursor-pointer max-w-prose"
                   >
-                    J&apos;accepte que mes données personnelles soient collectées et traitées conformément à la{" "}
+                    {t.gdprConsent}{" "}
                     <a
                       href="/politique-confidentialite"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[#B6D7A5] hover:text-[#B6D7A5]/80 underline font-medium"
                     >
-                      politique de confidentialité
+                      {t.privacyPolicy}
                     </a>
-                    . Ces données sont nécessaires pour traiter votre réservation et vous contacter si besoin.
+                    {t.gdprText}
                   </div>
                 </div>
               </div>
@@ -391,10 +416,10 @@ export default function Home() {
                 {isLoading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin text-"></div>
-                    <span className="text-sm sm:text-base">Traitement en cours...</span>
+                    <span className="text-sm sm:text-base">{t.processing}</span>
                   </div>
                 ) : (
-                  <span className="text-sm sm:text-base">{`Réserver Maintenant - ${totalPrice}€`}</span>
+                  <span className="text-sm sm:text-base">{`${t.bookNow} - ${totalPrice}€`}</span>
                 )}
               </Button>
             </div>
@@ -405,34 +430,33 @@ export default function Home() {
             <div className="relative h-48 sm:h-56 lg:h-64">
               <img
                 src="IMG_6644.JPG"
-                alt="Expérience Gastronomique"
+                alt={t.gastroExperience}
                 className="w-full h-full object-cover object-bottom"
               />
             </div>
 
             <div className="p-4 sm:p-6">
               <div className="mb-4">
-                <h3 className="text-2xl sm:text-3xl font-bold mb-2">Matinée Gastronomique</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-2">{t.gastroMorning}</h3>
 
                 <div className="bg-[#B6D7A5]/10 border-l-4 border-[#B6D7A5] p-3 sm:p-4 rounded">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm sm:text-base text-gray-700 font-medium">
-                      {participants} {participants === 1 ? 'personne' : 'personnes'}
+                      {participants} {participants === 1 ? t.person : t.people}
                     </span>
                     <span className="text-sm sm:text-base text-gray-600">
                       {participants === 1 ? '120€' : `${pricePerPerson}€/pers`}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-2 border-t border-[#B6D7A5]/30">
-                    <span className="text-base sm:text-lg font-bold text-gray-900">Total</span>
+                    <span className="text-base sm:text-lg font-bold text-gray-900">{t.total}</span>
                     <span className="text-2xl sm:text-3xl font-bold text-[#B6D7A5]">{totalPrice}€</span>
                   </div>
                 </div>
               </div>
 
               <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
-                Plongez dans une expérience culinaire unique où passion et saveurs se rencontrent.
-                Découvrez des plats exquis préparés avec des ingrédients locaux de qualité.
+                {t.experienceDescription}
               </p>
             </div>
           </div>
