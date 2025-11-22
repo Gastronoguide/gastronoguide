@@ -9,16 +9,17 @@ import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popove
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Checkbox } from "../components/ui/checkbox";
 import { useToast } from "../components/ui/use-toast";
-import { CalendarIcon, Globe } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { fr, enUS, es } from "date-fns/locale";
 import { getPricePerPerson } from "../lib/utils";
 import { calculateAvailability, getRemainingSpots, type Appointment } from "../lib/availability";
-import { translations, languageNames, type Language } from "../lib/translations";
+import { translations } from "../lib/translations";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Home() {
   const { toast } = useToast();
-  const [language, setLanguage] = useState<Language>("fr");
+  const { language } = useLanguage();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -173,27 +174,8 @@ export default function Home() {
   const isFormValid = firstName && lastName && phone && email && reservationDate && startTime && participants > 0 && rgpdConsent;
 
   return (
-    <div className="">
+    <div>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Language Selector */}
-        <div className="mb-4 flex justify-end">
-          <div className="flex items-center gap-2 bg-white rounded-lg shadow-sm p-2">
-            <Globe className="h-4 w-4 text-gray-600" />
-            <Select value={language} onValueChange={(value: Language) => setLanguage(value)}>
-              <SelectTrigger className="h-9 w-[140px] border-0 shadow-none focus:ring-0">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {(Object.keys(languageNames) as Language[]).map((lang) => (
-                  <SelectItem key={lang} value={lang}>
-                    {languageNames[lang]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 lg:p-8">
             <div className="mb-6 sm:mb-8">
@@ -429,7 +411,7 @@ export default function Home() {
           <div className="bg-white rounded-lg shadow-sm overflow-hidden h-fit lg:sticky lg:top-8">
             <div className="relative h-48 sm:h-56 lg:h-64">
               <img
-                src="IMG_6644.JPG"
+                src="IMG_6644.png"
                 alt={t.gastroExperience}
                 className="w-full h-full object-cover object-bottom"
               />
