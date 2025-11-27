@@ -4,11 +4,21 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { sendConfirmationEmail, sendOwnerSMS } from "@/lib/brevo";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-10-29.clover",
-});
+const getStripe = () => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-10-29.clover",
+  });
+};
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const getEndpointSecret = () => {
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    throw new Error("STRIPE_WEBHOOK_SECRET is not configured");
+  }
+  return process.env.STRIPE_WEBHOOK_SECRET;
+};
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -18,6 +28,8 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
+    const stripe = getStripe();
+    const endpointSecret = getEndpointSecret();
     event = stripe.webhooks.constructEvent(body, sig!, endpointSecret);
   } catch (err: unknown) {
     const error = err as Error;

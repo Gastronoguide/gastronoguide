@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-10-29.clover",
-});
+const getStripe = () => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-10-29.clover",
+  });
+};
 
 export async function GET(req: Request) {
   try {
@@ -16,6 +21,8 @@ export async function GET(req: Request) {
         { status: 400 }
       );
     }
+
+    const stripe = getStripe();
 
     // Récupérer les détails de la session Stripe
     const session = await stripe.checkout.sessions.retrieve(sessionId);
