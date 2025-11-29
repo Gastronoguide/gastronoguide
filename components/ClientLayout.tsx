@@ -15,7 +15,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             alt="Gastronoguide Logo"
             className="h-10 w-auto"
           />
-          <h1 className="text-2xl font-bold">Gastronoguide</h1>
+          <h1 className="text-2xl font-bold max-[360px]:hidden">Gastronoguide</h1>
         </a>
         <LanguageSelector />
       </header>
