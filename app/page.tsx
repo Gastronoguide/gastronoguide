@@ -176,25 +176,35 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="IMG_6644.png"
+            src="IMG_6673.JPG"
             alt="Marché Victor Hugo"
             className="w-full h-full object-cover brightness-[0.7]"
           />
         </div>
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg leading-tight">
             {t.heroTitle}
           </h1>
-          <p className="text-xl sm:text-2xl mb-8 drop-shadow-md font-light">
+          <p className="text-lg sm:text-2xl mb-8 drop-shadow-md font-light max-w-2xl mx-auto">
             {t.heroSubtitle}
           </p>
           <Button
-            onClick={() => document.getElementById('reservation-section')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => {
+              const element = document.getElementById('reservation-section');
+              if (element) {
+                const offset = 80;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = element.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+              }
+            }}
             size="lg"
-            className="bg-[#B6D7A5] hover:bg-[#B6D7A5]/90 text-black font-bold text-lg px-8 py-6 rounded-full transition-all transform hover:scale-105"
+            className="bg-[#B6D7A5] hover:bg-[#B6D7A5]/90 text-black font-bold text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 rounded-full transition-all transform hover:scale-105 shadow-xl"
           >
             {t.ctaBook}
           </Button>
@@ -202,7 +212,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section id="about-section" className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -214,7 +224,7 @@ export default function Home() {
                 {t.aboutDescription}
               </p>
             </div>
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[400px]">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[300px] sm:h-[400px]">
               <img
                 src="IMG_6644.png"
                 alt="Product Market"
@@ -226,13 +236,13 @@ export default function Home() {
       </section>
 
       {/* Included Section */}
-      <section className="py-16 sm:py-24 bg-gray-50">
+      <section id="included-section" className="py-16 sm:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16">{t.includedTitle}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {t.includedItems.map((item, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow">
-                <div className="bg-[#B6D7A5]/20 p-2 rounded-lg">
+                <div className="bg-[#B6D7A5]/20 p-2 rounded-lg shrink-0">
                   <Check className="w-6 h-6 text-[#B6D7A5]" />
                 </div>
                 <p className="text-lg text-gray-700">{item}</p>
@@ -243,7 +253,7 @@ export default function Home() {
       </section>
 
       {/* Practical Info Section */}
-      <section className="py-16 sm:py-24 bg-[#B6D7A5]/10">
+      <section id="practical-section" className="py-16 sm:py-24 bg-[#B6D7A5]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16">{t.practicalTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -270,8 +280,10 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 p-6 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center gap-4 max-w-2xl mx-auto">
-            <Utensils className="w-6 h-6 text-[#B6D7A5]" />
-            <p className="text-center font-medium text-gray-700">{t.dietaryInfo}</p>
+            <div>
+              <Utensils className="w-6 h-6 text-[#B6D7A5]" />
+            </div>
+            <p className="text-center font-medium text-gray-700 text-sm">{t.dietaryInfo}</p>
           </div>
         </div>
       </section>

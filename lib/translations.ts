@@ -57,6 +57,12 @@ export interface Translations {
   practicalGroup: string;
   dietaryInfo: string;
 
+  // Navigation
+  navAbout: string;
+  navIncluded: string;
+  navPractical: string;
+  navBook: string;
+
   // Toasts
   missingDate: string;
   selectDateMessage: string;
@@ -116,7 +122,7 @@ export const translations: Record<Language, Translations> = {
     experienceDescription: "Plongez dans une expérience culinaire unique où passion et saveurs se rencontrent. Découvrez des plats exquis préparés avec des ingrédients locaux de qualité.",
     total: "Total",
 
-    heroTitle: "Entrez dan sle ventre de Toulouse",
+    heroTitle: "Entrez dans le ventre de Toulouse",
     heroSubtitle: "Un voyage culinaire immersif au cœur du Marché Victor Hugo",
     ctaBook: "Réserver ma visite",
     aboutTitle: "Le Marché Victor Hugo",
@@ -134,7 +140,12 @@ export const translations: Record<Language, Translations> = {
     practicalDays: "Du Mardi au Samedi (fermé Lundi et Dimanche)",
     practicalTimes: "Deux créneaux : 9h00-11h00 et 11h30-13h30",
     practicalGroup: "Groupe de 12 personnes maximum",
-    dietaryInfo: "Végétariens et Vegans bienvenus ! Nous nous adaptons à vos besoins.",
+    dietaryInfo: "Peu importe votre régime alimentaire ou vos allergies, nous adaptons chaque dégustation pour que tout le monde profite pleinement de l'expérience !",
+
+    navAbout: "À propos",
+    navIncluded: "Au programme",
+    navPractical: "Infos",
+    navBook: "Réserver",
 
     missingDate: "Date manquante",
     selectDateMessage: "Veuillez sélectionner une date de réservation",
@@ -209,7 +220,12 @@ export const translations: Record<Language, Translations> = {
     practicalDays: "Tuesday to Saturday (closed Monday and Sunday)",
     practicalTimes: "Two slots: 9:00 AM - 11:00 AM and 11:30 AM - 1:30 PM",
     practicalGroup: "Group of 12 people maximum",
-    dietaryInfo: "Vegetarians and Vegans welcome! We adapt to your needs.",
+    dietaryInfo: "No matter your dietary requirements or allergies, we adapt every tasting so everyone can fully enjoy the experience!",
+
+    navAbout: "About",
+    navIncluded: "Program",
+    navPractical: "Info",
+    navBook: "Book",
 
     missingDate: "Missing date",
     selectDateMessage: "Please select a reservation date",
@@ -284,7 +300,12 @@ export const translations: Record<Language, Translations> = {
     practicalDays: "De martes a sábado (cerrado lunes y domingo)",
     practicalTimes: "Dos horarios: 9:00-11:00 y 11:30-13:30",
     practicalGroup: "Grupo de máximo 12 personas",
-    dietaryInfo: "¡Vegetarianos y veganos bienvenidos! Nos adaptamos a sus necesidades.",
+    dietaryInfo: "No importa su dieta o alergias, ¡adaptamos cada degustación para que todos disfruten plenamente de la experiencia!",
+
+    navAbout: "Sobre mí",
+    navIncluded: "Programa",
+    navPractical: "Info",
+    navBook: "Reservar",
 
     missingDate: "Fecha faltante",
     selectDateMessage: "Por favor seleccione una fecha de reserva",
