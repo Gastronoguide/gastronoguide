@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popove
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Checkbox } from "../components/ui/checkbox";
 import { useToast } from "../components/ui/use-toast";
-import { CalendarIcon, Check, Clock, Users, Calendar as CalendarDays, MapPin, Utensils } from "lucide-react";
+import { CalendarIcon, Check, Clock, Users, Calendar as CalendarDays, MapPin, Utensils, Wine, Compass, Beef, Wheat, History, ChefHat } from "lucide-react";
 import { format } from "date-fns";
 import { fr, enUS, es } from "date-fns/locale";
 import { getPricePerPerson } from "../lib/utils";
@@ -236,18 +236,49 @@ export default function Home() {
       </section>
 
       {/* Included Section */}
-      <section id="included-section" className="py-16 sm:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16">{t.includedTitle}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {t.includedItems.map((item, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow">
-                <div className="bg-[#B6D7A5]/20 p-2 rounded-lg shrink-0">
-                  <Check className="w-6 h-6 text-[#B6D7A5]" />
+      <section id="included-section" className="py-20 sm:py-32 bg-white relative overflow-hidden">
+        {/* Cercles décoratifs en arrière-plan */}
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-[#B6D7A5]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-96 h-96 bg-[#B6D7A5]/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16 sm:mb-24">
+            <h2 className="text-3xl sm:text-5xl font-bold text-gray-900 mb-6">
+              {t.includedTitle}
+            </h2>
+            <div className="w-24 h-1.5 bg-[#B6D7A5] rounded-full mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+              Une immersion sensorielle complète pour découvrir le meilleur de notre terroir toulousain.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
+            {t.includedItems.map((item, index) => {
+              const icons = [
+                <Compass key="0" className="w-8 h-8" />,
+                <Beef key="1" className="w-8 h-8" />,
+                <ChefHat key="2" className="w-8 h-8" />,
+                <Utensils key="3" className="w-8 h-8" />,
+                <Wheat key="4" className="w-8 h-8" />,
+                <Wine key="5" className="w-8 h-8" />,
+              ];
+              return (
+                <div
+                  key={index}
+                  className="group bg-gray-50 p-8 rounded-3xl border border-transparent hover:border-[#B6D7A5]/30 hover:bg-white hover:shadow-2xl hover:shadow-[#B6D7A5]/20 transition-all duration-500 flex flex-col items-center text-center gap-6"
+                >
+                  <div className="bg-white p-5 rounded-2xl shadow-sm group-hover:bg-[#B6D7A5] group-hover:text-white transition-colors duration-500 text-[#B6D7A5]">
+                    {icons[index] || <Check className="w-8 h-8" />}
+                  </div>
+                  <div className="space-y-3">
+                    <p className="text-xl font-bold text-gray-900 group-hover:text-[#B6D7A5] transition-colors duration-500">
+                      {item}
+                    </p>
+                    <div className="w-8 h-1 bg-[#B6D7A5]/20 rounded-full mx-auto group-hover:w-16 group-hover:bg-[#B6D7A5] transition-all duration-500"></div>
+                  </div>
                 </div>
-                <p className="text-lg text-gray-700">{item}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -283,7 +314,7 @@ export default function Home() {
             <div>
               <Utensils className="w-6 h-6 text-[#B6D7A5]" />
             </div>
-            <p className="text-center font-medium text-gray-700 text-sm">{t.dietaryInfo}</p>
+            <p className="text-center font-medium text-gray-700 text-sm ">{t.dietaryInfo}</p>
           </div>
         </div>
       </section>
