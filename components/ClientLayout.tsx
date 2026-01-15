@@ -19,7 +19,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </a>
         <LanguageSelector />
       </header>
-      <main className="flex flex-col justify-center p-4 md:p-8 bg-gray-50">
+      <main className="flex-1">
         {children}
       </main>
       <Toaster />
