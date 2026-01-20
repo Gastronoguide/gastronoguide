@@ -559,11 +559,11 @@ export default function Home() {
 
             {/* Right Column - Summary Card */}
             <div className="bg-white rounded-lg shadow-sm overflow-hidden h-fit lg:sticky lg:top-8 border border-gray-100">
-              <div className="relative h-48 sm:h-56 lg:h-64">
+              <div className="relative h-40 sm:h-56 lg:h-64">
                 <img
                   src="IMG_6644.png"
                   alt={t.gastroExperience}
-                  className="w-full h-full object-cover object-bottom"
+                  className="w-full h-full object-cover object-center sm:object-bottom"
                 />
               </div>
 
