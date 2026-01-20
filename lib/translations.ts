@@ -10,6 +10,7 @@ export interface Translations {
   morning: string;
   noon: string;
   full: string;
+  tooLate: string;
   spots: string;
   participants: string;
   participantsRemaining: string;
@@ -93,6 +94,7 @@ export const translations: Record<Language, Translations> = {
     morning: "Matin : 09:00 - 11:00",
     noon: "Midi : 11:30 - 13:30",
     full: "Complet",
+    tooLate: "Trop tard",
     spots: "places",
     participants: "Nombre de participants",
     participantsRemaining: "places restantes",
@@ -173,6 +175,7 @@ export const translations: Record<Language, Translations> = {
     morning: "Morning: 09:00 - 11:00",
     noon: "Noon: 11:30 - 13:30",
     full: "Full",
+    tooLate: "Too late",
     spots: "spots",
     participants: "Number of participants",
     participantsRemaining: "spots remaining",
@@ -253,6 +256,7 @@ export const translations: Record<Language, Translations> = {
     morning: "Mañana: 09:00 - 11:00",
     noon: "Mediodía: 11:30 - 13:30",
     full: "Completo",
+    tooLate: "Muy tarde",
     spots: "plazas",
     participants: "Número de participantes",
     participantsRemaining: "plazas restantes",

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { MIN_HOURS_BEFORE_BOOKING } from "@/lib/availability";
 
 const getStripe = () => {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -9,6 +10,25 @@ const getStripe = () => {
     apiVersion: "2025-10-29.clover",
   });
 };
+
+function isTimeSlotBookableServer(dateStr: string, startTime: string): boolean {
+  const now = new Date();
+
+  // Parse the date (format: "yyyy-MM-dd")
+  const [year, month, day] = dateStr.split('-').map(Number);
+
+  // Get the start hour of the time slot
+  const slotStartHour = startTime.includes("09:00") ? 9 : 11.5;
+
+  // Create a date object for the slot start time
+  const slotDateTime = new Date(year, month - 1, day, Math.floor(slotStartHour), (slotStartHour % 1) * 60, 0, 0);
+
+  // Calculate the difference in milliseconds
+  const diffMs = slotDateTime.getTime() - now.getTime();
+  const diffHours = diffMs / (1000 * 60 * 60);
+
+  return diffHours >= MIN_HOURS_BEFORE_BOOKING;
+}
 
 export async function POST(req: Request) {
   try {
@@ -29,6 +49,14 @@ export async function POST(req: Request) {
     if (!email || !price || !date || !startTime) {
       return NextResponse.json(
         { error: "Champs requis manquants" },
+        { status: 400 }
+      );
+    }
+
+    // Validate minimum booking time (2 hours in advance)
+    if (!isTimeSlotBookableServer(date, startTime)) {
+      return NextResponse.json(
+        { error: "Les réservations doivent être effectuées au moins 2 heures à l'avance" },
         { status: 400 }
       );
     }

@@ -121,6 +121,38 @@ export function getRemainingSpots(
 }
 
 /**
+ * Minimum hours required before a booking can be made
+ */
+export const MIN_HOURS_BEFORE_BOOKING = 2;
+
+/**
+ * Check if a time slot is bookable (at least MIN_HOURS_BEFORE_BOOKING hours in advance)
+ */
+export function isTimeSlotBookable(
+  date: Date | undefined,
+  timeSlot: TimeSlot
+): boolean {
+  if (!date) {
+    return true;
+  }
+
+  const now = new Date();
+
+  // Get the start hour of the time slot
+  const slotStartHour = timeSlot === "09:00 - 11:00" ? 9 : 11.5;
+
+  // Create a date object for the slot start time
+  const slotDateTime = new Date(date);
+  slotDateTime.setHours(Math.floor(slotStartHour), (slotStartHour % 1) * 60, 0, 0);
+
+  // Calculate the difference in milliseconds
+  const diffMs = slotDateTime.getTime() - now.getTime();
+  const diffHours = diffMs / (1000 * 60 * 60);
+
+  return diffHours >= MIN_HOURS_BEFORE_BOOKING;
+}
+
+/**
  * Calculate availability for multiple dates (for calendar view)
  */
 export function calculateAvailabilityMap(

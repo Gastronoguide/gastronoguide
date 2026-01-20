@@ -13,7 +13,7 @@ import { CalendarIcon, Check, Clock, Users, Calendar as CalendarDays, MapPin, Ut
 import { format } from "date-fns";
 import { fr, enUS, es } from "date-fns/locale";
 import { getPricePerPerson } from "../lib/utils";
-import { calculateAvailability, getRemainingSpots, type Appointment } from "../lib/availability";
+import { calculateAvailability, getRemainingSpots, isTimeSlotBookable, type Appointment } from "../lib/availability";
 import { translations } from "../lib/translations";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -377,23 +377,23 @@ export default function Home() {
                       <SelectContent>
                         <SelectItem
                           value="09:00 - 11:00"
-                          disabled={availability.morning === 0}
+                          disabled={availability.morning === 0 || !isTimeSlotBookable(reservationDate, "09:00 - 11:00")}
                         >
                           <div className="flex items-center justify-between gap-4 w-full">
                             <span>{t.morning}</span>
-                            <span className={`text-xs font-semibold ${availability.morning === 0 ? 'text-red-500' : 'text-green-600'}`}>
-                              {availability.morning === 0 ? t.full : `${availability.morning} ${t.spots}`}
+                            <span className={`text-xs font-semibold ${availability.morning === 0 || !isTimeSlotBookable(reservationDate, "09:00 - 11:00") ? 'text-red-500' : 'text-green-600'}`}>
+                              {!isTimeSlotBookable(reservationDate, "09:00 - 11:00") ? t.tooLate : availability.morning === 0 ? t.full : `${availability.morning} ${t.spots}`}
                             </span>
                           </div>
                         </SelectItem>
                         <SelectItem
                           value="11:30 - 13:30"
-                          disabled={availability.noon === 0}
+                          disabled={availability.noon === 0 || !isTimeSlotBookable(reservationDate, "11:30 - 13:30")}
                         >
                           <div className="flex items-center justify-between gap-4 w-full">
                             <span>{t.noon}</span>
-                            <span className={`text-xs font-semibold ${availability.noon === 0 ? 'text-red-500' : 'text-green-600'}`}>
-                              {availability.noon === 0 ? t.full : `${availability.noon} ${t.spots}`}
+                            <span className={`text-xs font-semibold ${availability.noon === 0 || !isTimeSlotBookable(reservationDate, "11:30 - 13:30") ? 'text-red-500' : 'text-green-600'}`}>
+                              {!isTimeSlotBookable(reservationDate, "11:30 - 13:30") ? t.tooLate : availability.noon === 0 ? t.full : `${availability.noon} ${t.spots}`}
                             </span>
                           </div>
                         </SelectItem>

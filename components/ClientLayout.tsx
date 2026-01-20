@@ -56,7 +56,7 @@ function Header() {
             alt="Gastronoguide Logo"
             className={`h-10 w-auto transition-transform ${isScrolled ? "scale-90" : "scale-100"}`}
           />
-          <h1 className={`text-xl sm:text-2xl font-bold transition-colors ${isScrolled ? "text-gray-900" : "text-primary-foreground"
+          <h1 className={`text-xl sm:text-2xl font-bold transition-colors max-sm:hidden ${isScrolled ? "text-gray-900" : "text-primary-foreground"
             }`}>
             Gastronoguide
           </h1>
