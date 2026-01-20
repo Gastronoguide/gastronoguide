@@ -38,7 +38,10 @@ export default function PolitiqueConfidentialite() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Article 4 – Droits des utilisateurs</h2>
           <p className="mb-4">
-            Conformément au RGPD (UE 2016/679), tout utilisateur dispose d'un droit d'accès, de rectification,de suppression et de portabilité de ses données. Toute demande peut être adressée à gastronoguide@gmail.com.
+            Conformément au RGPD (UE 2016/679), tout utilisateur dispose d'un droit d'accès, de rectification, de suppression et de portabilité de ses données. Toute demande peut être adressée à{' '}
+            <a href="mailto:gastronoguide@gmail.com" className="text-[#B6D7A5] hover:underline">
+              gastronoguide@gmail.com
+            </a>.
           </p>
         </section>
 

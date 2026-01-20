@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground py-6 px-6">
@@ -7,21 +9,21 @@ export default function Footer() {
             <p className="text-sm">© 2025 Gastronoguide. Tous droits réservés.</p>
           </div>
           <nav className="flex flex-wrap justify-center gap-4 text-sm">
-            <a href="/mentions-legales" className="hover:underline transition-colors">
+            <Link href="/mentions-legales" className="hover:underline transition-colors">
               Mentions légales
-            </a>
+            </Link>
             <span className="text-primary-foreground/50">|</span>
-            <a href="/cgv" className="hover:underline transition-colors">
+            <Link href="/cgv" className="hover:underline transition-colors">
               CGV
-            </a>
+            </Link>
             <span className="text-primary-foreground/50">|</span>
-            <a href="/politique-confidentialite" className="hover:underline transition-colors">
+            <Link href="/politique-confidentialite" className="hover:underline transition-colors">
               Confidentialité
-            </a>
+            </Link>
             <span className="text-primary-foreground/50">|</span>
-            <a href="/politique-cookies" className="hover:underline transition-colors">
+            <Link href="/politique-cookies" className="hover:underline transition-colors">
               Cookies
-            </a>
+            </Link>
           </nav>
         </div>
       </div>

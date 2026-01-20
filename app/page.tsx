@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/button";
@@ -419,28 +420,52 @@ export default function Home() {
                       <SelectItem value="1" disabled={remainingSpots < 1}>
                         <div className="flex justify-between items-center w-full gap-8">
                           <span>1 {t.person}</span>
-                          <span className="font-semibold">120€</span>
+                          <span className="font-semibold">125€</span>
                         </div>
                       </SelectItem>
                       <SelectItem value="2" disabled={remainingSpots < 2}>
                         <div className="flex justify-between items-center w-full gap-8">
                           <span>2 {t.people}</span>
-                          <span className="font-semibold">72€/pers</span>
+                          <span className="font-semibold">75€/pers</span>
                         </div>
                       </SelectItem>
                       {[3, 4].map((num) => (
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
-                            <span className="font-semibold">60€/pers</span>
+                            <span className="font-semibold">62€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
-                      {[5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
+                      {[5, 6].map((num) => (
+                        <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
+                          <div className="flex justify-between items-center w-full gap-8">
+                            <span>{num} {t.people}</span>
+                            <span className="font-semibold">57€/pers</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                      {[7, 8].map((num) => (
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
                             <span className="font-semibold">55€/pers</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                      {[9, 10].map((num) => (
+                        <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
+                          <div className="flex justify-between items-center w-full gap-8">
+                            <span>{num} {t.people}</span>
+                            <span className="font-semibold">52€/pers</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                      {[11, 12].map((num) => (
+                        <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
+                          <div className="flex justify-between items-center w-full gap-8">
+                            <span>{num} {t.people}</span>
+                            <span className="font-semibold">50€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -525,14 +550,13 @@ export default function Home() {
                       className="text-sm text-gray-700 leading-relaxed cursor-pointer max-w-prose"
                     >
                       {t.gdprConsent}{" "}
-                      <a
+                      <Link
                         href="/politique-confidentialite"
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="text-[#B6D7A5] hover:text-[#B6D7A5]/80 underline font-medium"
                       >
                         {t.privacyPolicy}
-                      </a>
+                      </Link>
                       {t.gdprText}
                     </div>
                   </div>
@@ -577,7 +601,7 @@ export default function Home() {
                         {participants} {participants === 1 ? t.person : t.people}
                       </span>
                       <span className="text-sm sm:text-base text-gray-600">
-                        {participants === 1 ? '120€' : `${pricePerPerson}€/pers`}
+                        {participants === 1 ? '125€' : `${pricePerPerson}€/pers`}
                       </span>
                     </div>
                     <div className="flex justify-between items-center pt-2 border-t border-[#B6D7A5]/30">
