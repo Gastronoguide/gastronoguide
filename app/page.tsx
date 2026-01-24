@@ -420,20 +420,20 @@ export default function Home() {
                       <SelectItem value="1" disabled={remainingSpots < 1}>
                         <div className="flex justify-between items-center w-full gap-8">
                           <span>1 {t.person}</span>
-                          <span className="font-semibold">125€</span>
+                          <span className="font-semibold">100€</span>
                         </div>
                       </SelectItem>
                       <SelectItem value="2" disabled={remainingSpots < 2}>
                         <div className="flex justify-between items-center w-full gap-8">
                           <span>2 {t.people}</span>
-                          <span className="font-semibold">75€/pers</span>
+                          <span className="font-semibold">60€/pers</span>
                         </div>
                       </SelectItem>
                       {[3, 4].map((num) => (
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
-                            <span className="font-semibold">62€/pers</span>
+                            <span className="font-semibold">50€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -441,7 +441,7 @@ export default function Home() {
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
-                            <span className="font-semibold">57€/pers</span>
+                            <span className="font-semibold">46€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -449,7 +449,7 @@ export default function Home() {
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
-                            <span className="font-semibold">55€/pers</span>
+                            <span className="font-semibold">44€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -457,7 +457,7 @@ export default function Home() {
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
-                            <span className="font-semibold">52€/pers</span>
+                            <span className="font-semibold">42€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -465,7 +465,7 @@ export default function Home() {
                         <SelectItem key={num} value={num.toString()} disabled={remainingSpots < num}>
                           <div className="flex justify-between items-center w-full gap-8">
                             <span>{num} {t.people}</span>
-                            <span className="font-semibold">50€/pers</span>
+                            <span className="font-semibold">40€/pers</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -601,7 +601,7 @@ export default function Home() {
                         {participants} {participants === 1 ? t.person : t.people}
                       </span>
                       <span className="text-sm sm:text-base text-gray-600">
-                        {participants === 1 ? '125€' : `${pricePerPerson}€/pers`}
+                        {participants === 1 ? '100€' : `${pricePerPerson}€/pers`}
                       </span>
                     </div>
                     <div className="flex justify-between items-center pt-2 border-t border-[#B6D7A5]/30">
