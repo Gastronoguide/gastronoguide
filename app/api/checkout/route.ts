@@ -53,6 +53,16 @@ export async function POST(req: Request) {
       );
     }
 
+    // Validate no bookings on Mondays
+    const [year, month, day] = date.split('-').map(Number);
+    const bookingDate = new Date(year, month - 1, day);
+    if (bookingDate.getDay() === 1) {
+      return NextResponse.json(
+        { error: "Les réservations ne sont pas disponibles le lundi" },
+        { status: 400 }
+      );
+    }
+
     // Validate minimum booking time (2 hours in advance)
     if (!isTimeSlotBookableServer(date, startTime)) {
       return NextResponse.json(

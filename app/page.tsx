@@ -358,7 +358,8 @@ export default function Home() {
                           selected={reservationDate}
                           onSelect={setReservationDate}
                           disabled={(date) =>
-                            date < new Date(new Date().setHours(0, 0, 0, 0))
+                            date < new Date(new Date().setHours(0, 0, 0, 0)) ||
+                            date.getDay() === 1
                           }
                           appointmentData={appointments}
                           locale={dateLocale}
